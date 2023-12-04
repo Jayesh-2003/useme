@@ -1,0 +1,137 @@
+Let's start by defining the primary and foreign keys and then writing the queries based on the given schema:
+
+```sql
+CREATE TABLE dept (
+    dept_no INTEGER PRIMARY KEY,
+    proj_no INTEGER,
+    dname VARCHAR(255),
+    loc VARCHAR(255),
+    mgrcode INTEGER,
+    FOREIGN KEY (mgrcode) REFERENCES emp(emp_no)
+);
+
+CREATE TABLE emp (
+    emp_no INTEGER PRIMARY KEY,
+    ename VARCHAR(255),
+    designation VARCHAR(255),
+    dept_no INTEGER,
+    FOREIGN KEY (dept_no) REFERENCES dept(dept_no)
+);
+
+CREATE TABLE project (
+    proj_no INTEGER PRIMARY KEY,
+    proj_name VARCHAR(255),
+    status VARCHAR(255)
+);
+```
+
+Now, let's write the queries:
+
+a) List all employees of 'INVENTORY' department of 'PUNE' location.
+
+```sql
+SELECT emp.*
+FROM emp
+JOIN dept ON emp.dept_no = dept.dept_no
+WHERE dept.dname = 'INVENTORY' AND dept.loc = 'PUNE';
+```
+
+b) Give the names of employees who are working on 'Blood Bank' project.
+
+```sql
+SELECT emp.ename
+FROM emp
+JOIN project ON emp.proj_no = project.proj_no
+WHERE project.proj_name = 'Blood Bank';
+```
+
+c) Given the name of managers from 'MARKETING' department.
+
+```sql
+SELECT emp.ename
+FROM emp
+JOIN dept ON emp.dept_no = dept.dept_no
+WHERE dept.dname = 'MARKETING' AND emp.designation = 'Manager';
+```
+
+d) Give all the employees working under status 'INCOMPLETE' projects.
+
+```sql
+SELECT emp.*
+FROM emp
+JOIN project ON emp.proj_no = project.proj_no
+WHERE project.status = 'INCOMPLETE';
+```
+
+e) Display all employees department-wise.
+
+```sql
+SELECT emp.*, dept.dname
+FROM emp
+JOIN dept ON emp.dept_no = dept.dept_no;
+```
+
+f) Find out all employees category department-wise.
+
+```sql
+SELECT emp.*, dept.dname
+FROM emp
+JOIN dept ON emp.dept_no = dept.dept_no
+ORDER BY dept.dname;
+```
+
+g) Find out Project status of every department.
+
+```sql
+SELECT dept.dname, project.status
+FROM dept
+LEFT JOIN project ON dept.proj_no = project.proj_no;
+```
+
+Certainly! I see that queries h and i were already addressed in the previous response. However, let's reiterate them for clarity:
+
+h) Write the queries of inner join, outer join, and full join.
+
+Inner Join:
+
+```sql
+SELECT emp.*, dept.*
+FROM emp
+INNER JOIN dept ON emp.dept_no = dept.dept_no;
+```
+
+Outer Join:
+
+```sql
+SELECT emp.*, dept.*
+FROM emp
+LEFT JOIN dept ON emp.dept_no = dept.dept_no;
+
+-- or RIGHT JOIN, depending on your needs:
+
+SELECT emp.*, dept.*
+FROM emp
+RIGHT JOIN dept ON emp.dept_no = dept.dept_no;
+```
+
+Full Join (Note: Full Join is not supported in all database systems; consider using a combination of Left and Right Joins):
+
+```sql
+SELECT emp.*, dept.*
+FROM emp
+LEFT JOIN dept ON emp.dept_no = dept.dept_no
+UNION
+SELECT emp.*, dept.*
+FROM emp
+RIGHT JOIN dept ON emp.dept_no = dept.dept_no;
+```
+
+i) Arrange Employee name in ascending and designation in descending order.
+
+```sql
+SELECT ename, designation
+FROM emp
+ORDER BY ename ASC, designation DESC;
+```
+
+These queries should help you perform various types of joins and sorting based on employee names and designations. Adjust them according to your specific requirements and database system.

@@ -1,0 +1,63 @@
+For the given tasks, here are the corresponding SQL queries:
+
+1. Find the details of the teacher having a salary of 10000:
+
+```sql
+SELECT * FROM teacher_info WHERE Sal = 10000;
+```
+
+2. Find the teacher with status 'A' and salary 50000:
+
+```sql
+SELECT * FROM teacher_info WHERE Status = 'A' AND Sal = 50000;
+```
+
+3. Find the teacher's salary > 20000:
+
+```sql
+SELECT * FROM teacher_info WHERE Sal > 20000;
+```
+
+4. Find the teachers with status 'A' with salary ascending:
+
+```sql
+SELECT * FROM teacher_info WHERE Status = 'A' ORDER BY Sal ASC;
+```
+
+5. Count the total number of teachers:
+
+```sql
+SELECT COUNT(*) AS total_teachers FROM teacher_info;
+```
+
+6. Update the department of teachers to 'EnTc' where the salary is greater than 20000:
+
+```sql
+UPDATE teacher_info SET Branch = 'EnTc' WHERE Sal > 20000;
+```
+
+7. Increment the salary of teachers with 10000 whose status is 'A':
+
+```sql
+UPDATE teacher_info SET Sal = Sal + 1000 WHERE Status = 'A' AND Sal = 10000;
+```
+
+8. Add a field called 'joining_date' in the `teacher_info` table:
+
+```sql
+ALTER TABLE teacher_info ADD COLUMN joining_date DATE;
+```
+
+9. Delete the teacher with id 't04':
+
+```sql
+DELETE FROM teacher_info WHERE Teacher_id = 't04';
+```
+
+10. Drop the table `teacher_info`:
+
+```sql
+DROP TABLE teacher_info;
+```
+
+Note: Make sure to review and test these queries in a safe environment before applying them to a production database.

@@ -1,0 +1,87 @@
+Certainly! Here are the SQL queries for the given tasks:
+
+a. Remove all records where Publisher Name is "Nirali":
+
+```sql
+DELETE FROM Publisher
+WHERE PubName = 'Nirali';
+```
+
+b. Increase the price of the book by Rs. 200 for the 2nd edition and reduce the price of the book by Rs. 10 for the 1st edition of some book:
+
+```sql
+UPDATE Book
+SET Price = Price + 200
+WHERE Edition = 2;
+
+UPDATE Book
+SET Price = Price - 10
+WHERE Edition = 1;
+```
+
+c. Display book titles whose price is less than some books published by the publisher 'Oxford':
+
+i. Using Tuple Variable:
+
+```sql
+SELECT DISTINCT b1.Title
+FROM Book b1
+WHERE b1.Price < ANY (SELECT b2.Price
+                     FROM Book b2
+                     WHERE b2.PID IN (SELECT PubID
+                                      FROM Publisher
+                                      WHERE PubName = 'Oxford'));
+```
+
+ii. Without Using Tuple Variable:
+
+```sql
+SELECT DISTINCT b1.Title
+FROM Book b1, Book b2, Publisher p
+WHERE b1.Price < b2.Price
+      AND b2.PID = p.PubID
+      AND p.PubName = 'Oxford';
+```
+
+d. Display book titles with the word 'database':
+
+```sql
+SELECT Title
+FROM Book
+WHERE Title LIKE '%database%';
+```
+
+e. Display book titles and respective authors:
+
+```sql
+SELECT b.Title, a.AName
+FROM Book b
+JOIN WrittenBy w ON b.ISBNNO = w.ISBNNO
+JOIN Author a ON w.AuthorId = a.AuthorID;
+```
+
+f. Display student names and their roll numbers with fines in a sorted way (Maximum fine to Minimum Fine):
+
+```sql
+SELECT SName, RollNo, Fine
+FROM Student s
+JOIN Issue i ON s.RollNo = i.PRNNO
+ORDER BY Fine DESC;
+```
+
+g. Display common names in Author Names and Student Names:
+
+```sql
+SELECT AName AS CommonName
+FROM Author
+WHERE AName IN (SELECT SName FROM Student);
+```
+
+h. Display the total number of publishers:
+
+```sql
+SELECT COUNT(*) AS TotalPublishers
+FROM Publisher;
+```
+
+Please note that these queries assume certain constraints and data types in your schema. Adjustments may be needed based on your specific database structure.

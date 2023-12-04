@@ -1,0 +1,74 @@
+Certainly! Here are the queries based on the given schema:
+
+1. Count the total number of students:
+
+```sql
+SELECT COUNT(*) AS TotalStudents
+FROM Student;
+```
+
+2. Count the number of students staying in Pune:
+
+```sql
+SELECT COUNT(*) AS PuneStudents
+FROM Student
+WHERE saddr = 'Pune';
+```
+
+3. Display the different cities of students:
+
+```sql
+SELECT DISTINCT saddr AS DifferentCities
+FROM Student;
+```
+
+4. Group by address and show the result in decreasing order:
+
+```sql
+SELECT saddr, COUNT(*) AS StudentCount
+FROM Student
+GROUP BY saddr
+ORDER BY StudentCount DESC;
+```
+
+5. Group by address and limit the result set to 2 rows:
+
+```sql
+SELECT saddr, COUNT(*) AS StudentCount
+FROM Student
+GROUP BY saddr
+ORDER BY StudentCount DESC
+LIMIT 2;
+```
+
+6. Project increased marks of students by 100:
+
+```sql
+SELECT sname, smarks + 100 AS IncreasedMarks
+FROM Student;
+```
+
+7. Project increased marks of students by 100 and decreased by 50:
+
+```sql
+SELECT sname, smarks + 100 AS IncreasedMarks, smarks - 50 AS DecreasedMarks
+FROM Student;
+```
+
+8. Find the total marks of students grouped by city:
+
+```sql
+SELECT saddr, SUM(smarks) AS TotalMarks
+FROM Student
+GROUP BY saddr;
+```
+
+9. Find the maximum and minimum marks student city-wise:
+
+```sql
+SELECT saddr, MAX(smarks) AS MaxMarks, MIN(smarks) AS MinMarks
+FROM Student
+GROUP BY saddr;
+```
+
+These queries should help you analyze the data in various ways based on aggregation.

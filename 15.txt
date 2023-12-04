@@ -1,0 +1,73 @@
+Certainly! Here are the SQL queries for the given tasks based on the provided schema:
+
+a. Implement inner, left outer join, right outer join:
+
+```sql
+-- Inner Join
+SELECT *
+FROM Loan
+JOIN Borrower ON Loan.loan_number = Borrower.loan_number;
+
+-- Left Outer Join
+SELECT *
+FROM Loan
+LEFT JOIN Borrower ON Loan.loan_number = Borrower.loan_number;
+
+-- Right Outer Join
+SELECT *
+FROM Loan
+RIGHT JOIN Borrower ON Loan.loan_number = Borrower.loan_number;
+```
+
+b. Increase the amount from the Loan table by 5% where it exceeds 10000:
+
+```sql
+UPDATE Loan
+SET amount = amount * 1.05
+WHERE amount > 10000;
+```
+
+c. Delete all account records at the specific branch:
+
+```sql
+DELETE FROM Loan
+WHERE branch_name = 'specific_branch_name';
+```
+
+d. Find out the borrowers having an amount greater than 1L:
+
+```sql
+SELECT b.Customer_name, l.amount
+FROM Borrower b
+JOIN Loan l ON b.loan_number = l.loan_number
+WHERE l.amount > 100000;
+```
+
+e. Find loan details from the same branch:
+
+```sql
+SELECT *
+FROM Loan
+WHERE branch_name IN (SELECT DISTINCT branch_name FROM Loan);
+```
+
+f. Find out customer names from the same branch having an amount less than 2L:
+
+```sql
+SELECT b.Customer_name, l.amount
+FROM Borrower b
+JOIN Loan l ON b.loan_number = l.loan_number
+WHERE l.amount < 200000
+AND l.branch_name IN (SELECT DISTINCT branch_name FROM Loan);
+```
+
+g. Find the loan numbers and branch names having the highest 3 asset values:
+
+```sql
+SELECT loan_number, branch_name
+FROM Loan
+ORDER BY asset DESC
+LIMIT 3;
+```
+
+These queries assume certain constraints and data types in your schema. Adjustments may be needed based on your specific database structure.

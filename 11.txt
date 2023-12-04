@@ -1,0 +1,67 @@
+Certainly! Here are the SQL queries for the given tasks:
+
+1. Display books with titles having a minimum of 10 characters:
+
+```sql
+SELECT *
+FROM Book
+WHERE LENGTH(Title) >= 10;
+```
+
+2. Display book titles with the lowest price:
+
+```sql
+SELECT Title, Price
+FROM Book
+WHERE Price = (SELECT MIN(Price) FROM Book);
+```
+
+3. Display the total number of books in the library:
+
+```sql
+SELECT COUNT(*) AS TotalBooks
+FROM Book;
+```
+
+4. Display PRNNO and Barcode of books issued and returned on the same date:
+
+```sql
+SELECT PRNNO, BarCode
+FROM Issue
+WHERE IssueDate = RetDate;
+```
+
+5. Display PRNNO and Barcode for the books which are issued but not returned:
+
+```sql
+SELECT PRNNO, BarCode
+FROM Issue
+WHERE RetDate IS NULL;
+```
+
+6. Display the total fine paid by every student:
+
+```sql
+SELECT PRNNO, SUM(Fine) AS TotalFinePaid
+FROM Issue
+GROUP BY PRNNO;
+```
+
+7. Display the average fine collected:
+
+```sql
+SELECT AVG(Fine) AS AverageFineCollected
+FROM Issue
+WHERE Fine IS NOT NULL;
+```
+
+8. Display book titles along with their publishers whose price is greater than some books published by 'Oxford':
+
+```sql
+SELECT b.Title, p.PubName
+FROM Book b
+JOIN Publisher p ON b.PID = p.PubID
+WHERE b.Price > ANY (SELECT Price FROM Book WHERE PID = (SELECT PubID FROM Publisher WHERE PubName = 'Oxford'));
+```
+
+Please note that these queries assume certain constraints and data types in your schema. Adjustments may be needed based on your specific database structure.

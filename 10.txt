@@ -1,0 +1,69 @@
+Certainly! Here are the SQL queries for the given tasks:
+
+1. Display books whose price ranges between Rs. 300 and Rs. 500:
+
+```sql
+SELECT *
+FROM Book
+WHERE Price BETWEEN 300 AND 500;
+```
+
+2. Display book titles starting with 'Introduction':
+
+```sql
+SELECT Title
+FROM Book
+WHERE Title LIKE 'Introduction%';
+```
+
+3. Display books with the minimum price first to the maximum price at the end:
+
+```sql
+SELECT *
+FROM Book
+ORDER BY Price ASC;
+```
+
+4. Display names of Authors whose name is not in Student Name:
+
+```sql
+SELECT AName
+FROM Author
+WHERE AName NOT IN (SELECT SName FROM Student);
+```
+
+5. Display the total number of books issued by every student:
+
+```sql
+SELECT s.SName, s.RollNo, COUNT(*) AS TotalBooksIssued
+FROM Student s
+JOIN Issue i ON s.RollNo = i.PRNNO
+GROUP BY s.SName, s.RollNo;
+```
+
+6. Display names of students who have not paid any fine:
+
+```sql
+SELECT SName
+FROM Student
+WHERE RollNo NOT IN (SELECT PRNNO FROM Issue WHERE Fine > 0);
+```
+
+7. Display book titles along with their publishers whose price is less than all books published by 'Oxford':
+
+```sql
+SELECT b.Title, p.PubName
+FROM Book b
+JOIN Publisher p ON b.PID = p.PubID
+WHERE b.Price < ALL (SELECT Price FROM Book WHERE PID = (SELECT PubID FROM Publisher WHERE PubName = 'Oxford'));
+```
+
+8. Display books issued today:
+
+```sql
+SELECT *
+FROM Issue
+WHERE IssueDate = CURDATE();
+```
+
+Please note that these queries assume certain constraints and data types in your schema. Adjustments may be needed based on your specific database structure.

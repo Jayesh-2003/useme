@@ -1,0 +1,47 @@
+Certainly! Here are the SQL queries for the given statements based on the provided database schema:
+
+1. Get the employee number of employees working on project C353:
+
+```sql
+SELECT emp_id
+FROM Assigned_To
+WHERE project_id = 'C353';
+```
+
+2. Get details of employees working on project C353:
+
+```sql
+SELECT e.emp_id, e.emp_name
+FROM Employee e
+JOIN Assigned_To a ON e.emp_id = a.emp_id
+WHERE a.project_id = 'C353';
+```
+
+3. Obtain details of employees working on the database project:
+
+```sql
+SELECT e.emp_id, e.emp_name
+FROM Employee e
+JOIN Assigned_To a ON e.emp_id = a.emp_id
+JOIN Project p ON a.project_id = p.project_id
+WHERE p.proj_name = 'database project';
+```
+
+4. Get the employee number of employees who are on all projects:
+
+```sql
+SELECT emp_id
+FROM Employee
+WHERE emp_id IN (SELECT emp_id FROM Assigned_To GROUP BY emp_id HAVING COUNT(DISTINCT project_id) = (SELECT COUNT(DISTINCT project_id) FROM Project));
+```
+
+5. Display Project_id, Proj_name, emp_id, and emp_name:
+
+```sql
+SELECT p.project_id, p.proj_name, e.emp_id, e.emp_name
+FROM Project p
+JOIN Assigned_To a ON p.project_id = a.project_id
+JOIN Employee e ON a.emp_id = e.emp_id;
+```
+
+These queries assume certain constraints and data types in your schema. Adjustments may be needed based on your specific database structure.

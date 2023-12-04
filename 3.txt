@@ -1,0 +1,134 @@
+a) Create Tables:
+
+```sql
+CREATE TABLE Book (
+    ISBNNO VARCHAR(20) PRIMARY KEY,
+    Title VARCHAR(255),
+    PID INT,
+    Edition INT,
+    Price DECIMAL(10,2),
+    Quantity INT,
+    FOREIGN KEY (PID) REFERENCES Publisher(PubID)
+);
+
+CREATE TABLE Book_Detail (
+    BarCode VARCHAR(20) PRIMARY KEY,
+    ISBNNO VARCHAR(20),
+    FOREIGN KEY (ISBNNO) REFERENCES Book(ISBNNO)
+);
+
+CREATE TABLE Author (
+    AuthorID INT PRIMARY KEY,
+    AName VARCHAR(255),
+    AEmail VARCHAR(255) UNIQUE
+);
+
+CREATE TABLE Publisher (
+    PubID INT PRIMARY KEY,
+    PubName VARCHAR(255),
+    PCity VARCHAR(255),
+    PEmail VARCHAR(255)
+);
+
+CREATE TABLE Student (
+    SName VARCHAR(255),
+    RollNo INT PRIMARY KEY,
+    Branch VARCHAR(255),
+    Year INT,
+    PRNNO INT,
+    MobileNo VARCHAR(15),
+    City VARCHAR(255) DEFAULT 'Pune'
+);
+
+CREATE TABLE Issue (
+    TRXID INT PRIMARY KEY,
+    PRNNO INT,
+    BarCode VARCHAR(20),
+    IssueDate DATE,
+    RetDate DATE,
+    Fine DECIMAL(10,2),
+    FOREIGN KEY (PRNNO) REFERENCES Student(RollNo),
+    FOREIGN KEY (BarCode) REFERENCES Book_Detail(BarCode)
+);
+
+CREATE TABLE WrittenBy (
+    AuthorID INT,
+    ISBNNO VARCHAR(20),
+    PRIMARY KEY (AuthorID, ISBNNO),
+    FOREIGN KEY (AuthorID) REFERENCES Author(AuthorID),
+    FOREIGN KEY (ISBNNO) REFERENCES Book(ISBNNO)
+);
+```
+
+b) Add attribute MobileNo & City in students (default value for city= 'Pune'):
+
+```sql
+ALTER TABLE Student
+ADD MobileNo VARCHAR(15),
+    City VARCHAR(255) DEFAULT 'Pune';
+```
+
+c) Remove City attribute from students:
+
+```sql
+ALTER TABLE Student
+DROP COLUMN City;
+```
+
+d) Add unique constraints for email of authors:
+
+```sql
+ALTER TABLE Author
+ADD CONSTRAINT UC_Author_Email UNIQUE (AEmail);
+```
+e) Change the existing Date Format:
+
+Assuming you are using a database that supports changing the date format, the syntax can vary. Below is an example for MySQL:
+
+```sql
+ALTER TABLE Issue
+MODIFY COLUMN IssueDate DATE FORMAT 'YYYY-MM-DD',
+MODIFY COLUMN RetDate DATE FORMAT 'YYYY-MM-DD';
+```
+
+Replace 'YYYY-MM-DD' with the desired date format.
+
+f) Create a virtual table “StudentData” showing SName, PRNNO, Year for Students:
+
+```sql
+CREATE VIEW StudentData AS
+SELECT SName, RollNo AS PRNNO, Year
+FROM Student;
+```
+
+g) Create a virtual table ”BookData” showing book Title and publisher name for all books:
+
+```sql
+CREATE VIEW BookData AS
+SELECT B.Title, P.PubName
+FROM Book B
+JOIN Publisher P ON B.PID = P.PubID;
+```
+
+h) Add a primary key constraint for the Authors table:
+
+```sql
+ALTER TABLE Author
+ADD CONSTRAINT PK_Author PRIMARY KEY (AuthorID);
+```
+
+i) Remove the primary key constraint for the Authors table (Add again if required):
+
+```sql
+ALTER TABLE Author
+DROP CONSTRAINT PK_Author;
+```
+
+j) Remove the foreign key constraint for ISBNNO in the Book_Details table (Add again if required):
+
+```sql
+ALTER TABLE Book_Detail
+DROP FOREIGN KEY FK_BookDetail_ISBNNO;
+```
+
+Please note that the syntax may vary depending on the specific database system you are using. Adjust the statements accordingly based on your database system.

@@ -1,0 +1,57 @@
+Certainly! Here are the SQL queries for the given tasks:
+
+1. Find average marks of each student, along with the name of the student:
+
+```sql
+SELECT s.Roll_no, s.Name, AVG(m.marks) AS average_marks
+FROM Student s
+JOIN Marks m ON s.Roll_no = m.Roll_no
+GROUP BY s.Roll_no, s.Name;
+```
+
+2. Find how many students have failed in the subject “DBMS”:
+
+```sql
+SELECT COUNT(*) AS failed_students
+FROM Marks
+WHERE sub_code = 'DBMS' AND marks < 40;
+```
+
+3. Display the highest & lowest marks for every subject:
+
+```sql
+SELECT sub_code,
+       MAX(marks) AS highest_marks,
+       MIN(marks) AS lowest_marks
+FROM Marks
+GROUP BY sub_code;
+```
+
+4. Find students with a city starting from 'P':
+
+```sql
+SELECT *
+FROM Student
+WHERE City LIKE 'P%';
+```
+
+5. Find students with a city name ending with 'Pur':
+
+```sql
+SELECT *
+FROM Student
+WHERE City LIKE '%Pur';
+```
+
+6. Display Subject Name, Highest & lowest marks scored:
+
+```sql
+SELECT s.sub_name,
+       MAX(m.marks) AS highest_marks,
+       MIN(m.marks) AS lowest_marks
+FROM Subject s
+JOIN Marks m ON s.sub_code = m.sub_code
+GROUP BY s.sub_name;
+```
+
+Please note that these queries assume certain constraints and data types in your schema. Adjustments may be needed based on your specific database structure.

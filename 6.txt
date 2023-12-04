@@ -1,0 +1,81 @@
+Assuming you are working with an SQL database, you can use the following SQL queries for the given collection:
+
+a. Find the details of the teacher having a salary of 10000:
+
+```sql
+SELECT *
+FROM teacher_info
+WHERE Sal = 10000;
+```
+
+b. Find the teacher with status 'A' and a salary of 50000:
+
+```sql
+SELECT *
+FROM teacher_info
+WHERE Status = 'A' AND Sal = 50000;
+```
+
+c. Find the teacher with a salary greater than 20000:
+
+```sql
+SELECT *
+FROM teacher_info
+WHERE Sal > 20000;
+```
+
+d. Find the teachers with status 'A' with salary ascending:
+
+```sql
+SELECT *
+FROM teacher_info
+WHERE Status = 'A'
+ORDER BY Sal ASC;
+```
+
+e. Count the total number of teachers:
+
+```sql
+SELECT COUNT(*) AS TotalTeachers
+FROM teacher_info;
+```
+
+f. Update the department of teachers to 'EnTc' where salary is greater than 20000:
+
+```sql
+UPDATE teacher_info
+SET Branch = 'EnTc'
+WHERE Sal > 20000;
+```
+
+g. Increment the salary of teachers with 10000 whose status is 'A':
+
+```sql
+UPDATE teacher_info
+SET Sal = Sal + 10000
+WHERE Sal = 10000 AND Status = 'A';
+```
+
+h. Add a field called joining date in the teacher_info collection:
+
+```sql
+ALTER TABLE teacher_info
+ADD COLUMN JoiningDate DATE;
+```
+
+Note: You may need to choose an appropriate data type for the JoiningDate field based on your requirements.
+
+i. Delete the teacher with id 't04':
+
+```sql
+DELETE FROM teacher_info
+WHERE Teacher_id = 't04';
+```
+
+j. Drop table teacher_info:
+
+```sql
+DROP TABLE teacher_info;
+```
+
+These queries are written assuming the SQL syntax and may need to be adjusted based on the specific database management system you are using (e.g., MySQL, PostgreSQL, SQL Server).

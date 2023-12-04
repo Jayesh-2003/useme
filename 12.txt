@@ -1,0 +1,46 @@
+Certainly! Here are the SQL queries for the given tasks based on the provided database schema:
+
+1. Find the shift for the employee 'XYZ':
+
+```sql
+SELECT day, shift
+FROM Duty_allocation
+WHERE emp_no IN (SELECT emp_no FROM Employee WHERE name = 'XYZ');
+```
+
+2. Get the count of different employees for each shift:
+
+```sql
+SELECT day, shift, COUNT(DISTINCT emp_no) AS EmployeeCount
+FROM Duty_allocation
+GROUP BY day, shift;
+```
+
+3. Find employees eligible to fill a position:
+
+```sql
+SELECT emp_no, name
+FROM Employee
+WHERE skill IN (SELECT skill FROM Position WHERE posting_no = 'desired_posting_no');
+```
+
+Note: Replace 'desired_posting_no' with the actual posting_no you are interested in.
+
+4. Find the employee with the lowest pay rate:
+
+```sql
+SELECT emp_no, name, pay_rate
+FROM Employee
+ORDER BY pay_rate ASC
+LIMIT 1;
+```
+
+5. Find the name and rate of pay of all employees who are allocated to duty:
+
+```sql
+SELECT e.name, e.pay_rate
+FROM Employee e
+JOIN Duty_allocation d ON e.emp_no = d.emp_no;
+```
+
+These queries assume certain constraints and data types in your schema. Adjustments may be needed based on your specific database structure.
