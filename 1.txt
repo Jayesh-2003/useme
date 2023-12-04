@@ -1,0 +1,119 @@
+To perform the tasks you've outlined, we'll need to use SQL. Here's an example of how you can achieve each of the tasks:
+
+a) Create the tables with the appropriate integrity constraints:
+
+```sql
+CREATE TABLE employee (
+    emp_id INTEGER PRIMARY KEY,
+    emp_name VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE department (
+    dept_id INTEGER PRIMARY KEY,
+    dept_name VARCHAR(255) NOT NULL,
+    dept_location VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE paydetails (
+    emp_id INTEGER,
+    dept_id INTEGER,
+    basic INTEGER,
+    deductions INTEGER,
+    additions INTEGER,
+    DOJ DATE,
+    PRIMARY KEY (emp_id),
+    FOREIGN KEY (emp_id) REFERENCES employee(emp_id),
+    FOREIGN KEY (dept_id) REFERENCES department(dept_id)
+);
+
+CREATE TABLE payroll (
+    emp_id INTEGER,
+    pay_date DATE,
+    PRIMARY KEY (emp_id, pay_date),
+    FOREIGN KEY (emp_id) REFERENCES employee(emp_id)
+);
+```
+
+b) Insert around 10 records in each of the tables:
+
+```sql
+-- Inserting records into the employee table
+INSERT INTO employee VALUES (1, 'John'), (2, 'Jane'), ...;
+
+-- Inserting records into the department table
+INSERT INTO department VALUES (1, 'HR', 'Location1'), (2, 'IT', 'Location2'), ...;
+
+-- Inserting records into the paydetails table
+INSERT INTO paydetails VALUES (1, 1, 15000, 2000, 1000, '2023-01-01'), ...;
+
+-- Inserting records into the payroll table
+INSERT INTO payroll VALUES (1, '2023-01-15'), ...;
+```
+
+c) List the employee details department-wise:
+
+```sql
+SELECT emp_name, dept_name
+FROM employee
+JOIN paydetails ON employee.emp_id = paydetails.emp_id
+JOIN department ON paydetails.dept_id = department.dept_id;
+```
+
+d) List all the employee names who joined after a particular date:
+
+```sql
+SELECT emp_name
+FROM employee
+JOIN paydetails ON employee.emp_id = paydetails.emp_id
+WHERE DOJ > '2023-01-01';
+```
+
+e) List the details of employees whose basic salary is between 10,000 and 20,000:
+
+```sql
+SELECT *
+FROM paydetails
+WHERE basic BETWEEN 10000 AND 20000;
+```
+
+f) Give a count of how many employees are working in each department:
+
+```sql
+SELECT dept_name, COUNT(emp_id) AS employee_count
+FROM paydetails
+JOIN department ON paydetails.dept_id = department.dept_id
+GROUP BY dept_name;
+```
+
+g) Give names of employees whose net salary > 10,000:
+
+```sql
+SELECT emp_name
+FROM employee
+JOIN paydetails ON employee.emp_id = paydetails.emp_id
+WHERE (basic + additions - deductions) > 10000;
+```
+
+h) List the details for an employee_id=5:
+
+```sql
+SELECT *
+FROM paydetails
+WHERE emp_id = 5;
+```
+
+i) Create a view which lists emp_name and his netsalary:
+
+```sql
+CREATE VIEW employee_netsalary AS
+SELECT emp_id, emp_name, (basic + additions - deductions) AS netsalary
+FROM paydetails
+JOIN employee ON paydetails.emp_id = employee.emp_id;
+```
+
+Now, you can query the view:
+
+```sql
+SELECT emp_name, netsalary
+FROM employee_netsalary;
+```
